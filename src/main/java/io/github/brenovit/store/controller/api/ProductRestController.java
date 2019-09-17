@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.brenovit.store.repository.Product;
 import io.github.brenovit.store.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
@@ -28,16 +30,19 @@ public class ProductRestController {
 
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
+		log.info("call - findAll");
 		return ResponseEntity.ok(service.findAll());
 	}
 
 	@PostMapping
 	public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
+		log.info("call - create");
 		return ResponseEntity.ok(service.save(product));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
+		log.info("call - findById");
 		Optional<Product> stock = service.findById(id);
 		if (!stock.isPresent()) {
 			ResponseEntity.badRequest().build();
@@ -48,6 +53,7 @@ public class ProductRestController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product product) {
+		log.info("call - update");
 		if (!service.findById(id).isPresent()) {
 			ResponseEntity.badRequest().build();
 		}
@@ -57,6 +63,7 @@ public class ProductRestController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Product> delete(@PathVariable Long id) {
+		log.info("call - delete");
 		if (!service.findById(id).isPresent()) {
 			ResponseEntity.badRequest().build();
 		}
