@@ -5,7 +5,7 @@ const api = axios.create({
 });
 	
 function findProduct(productId) {
-	console.log('find product id: '+productId);
+	console.log(productId);
 	return products[findProductKey(productId)];
 }
 
@@ -103,7 +103,7 @@ var ProductEdit = Vue.extend({
 	template: '#edit-product',
 	data: function(){
 		return {
-			product: findProduct(this.$route.product_id)
+			product: findProduct(this.$route.params.product_id)
 		}
 	},
 	methods:{
@@ -121,7 +121,8 @@ var ProductDelete = Vue.extend({
 	},
 	methods: {
 	    deleteProduct: function () {
-	      productService.deleteProduct(this.product.id, r => router.push('/'));
+	    	console.log('delete: '+this.product);
+	    	productService.deleteProduct(this.product.id, r => router.push('/'));
 	    }
 	}
 });
