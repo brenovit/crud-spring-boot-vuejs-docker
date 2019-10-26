@@ -5,7 +5,6 @@ const api = axios.create({
 });
 	
 function findProduct(productId) {
-	console.log(productId);
 	return products[findProductKey(productId)];
 }
 
@@ -36,9 +35,9 @@ var productService = {
 		.then(response => fn(response))
 		.catch(error => console.log(error))
 	},
-	update(product, fn){
+	update(id, product, fn){
 		api
-		.put('',product)
+		.put(id, { data: product } )
 		.then(response => fn(response))
 		.catch(error => console.log(error))
 	},
@@ -121,7 +120,7 @@ var ProductDelete = Vue.extend({
 	},
 	methods: {
 	    deleteProduct: function () {
-	    	console.log('delete: '+this.product);
+	    	console.log(this.product);
 	    	productService.deleteProduct(this.product.id, r => router.push('/'));
 	    }
 	}
@@ -131,9 +130,9 @@ var router = new VueRouter({
 	routes: [
 		{path: '/', component: List},
 		{path: '/product/:product_id', component: Product, name: 'product'},
-		{path: '/product-add', component: ProductAdd},
-		{path: '/product/:product_id/edit', component: ProductEdit, name: 'product-edit'},
-		{path: '/product/:product_id/delete', component: ProductDelete, name: 'product-delete'},
+		{path: '/product', component: ProductAdd, name: 'product-add'},
+		{path: '/product/edit/:product_id', component: ProductEdit, name: 'product-edit'},
+		{path: '/product/delete/:product_id', component: ProductDelete, name: 'product-delete'},
 	]	
 });
 
