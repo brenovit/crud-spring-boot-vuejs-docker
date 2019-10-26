@@ -5,6 +5,7 @@ const api = axios.create({
 });
 	
 function findProduct(productId) {
+	console.log('find product id: '+productId);
 	return products[findProductKey(productId)];
 }
 
