@@ -6,7 +6,7 @@ At backend folder run
 > mvn clean package
 
 At root folder run
-> docer build -t productstore .
+> docker build -t productstore .
 > docker run -it --rm --name productstore -p [external port]:[port at application.properties] -v [application.properties location]:/root/config product-store
 
 Go to
