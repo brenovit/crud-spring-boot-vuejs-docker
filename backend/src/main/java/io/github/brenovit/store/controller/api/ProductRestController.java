@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.tomcat.jni.Proc;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +46,7 @@ public class ProductRestController {
 		log.info("call - findById");
 		Optional<Product> stock = service.findById(id);
 		if (!stock.isPresent()) {
-			ResponseEntity.badRequest().build();
+			return ResponseEntity.notFound().build();
 		}
 		
 		return ResponseEntity.ok(stock.get());
@@ -54,8 +55,9 @@ public class ProductRestController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Product> update(@PathVariable Long id, @Valid @RequestBody Product product) {
 		log.info("call - update");
+		log.info("received: {} : {}",id, product);
 		if (!service.findById(id).isPresent()) {
-			ResponseEntity.badRequest().build();
+			return ResponseEntity.notFound().build();
 		}
 
 		return ResponseEntity.ok(service.save(product));
@@ -65,7 +67,7 @@ public class ProductRestController {
 	public ResponseEntity<Product> delete(@PathVariable Long id) {
 		log.info("call - delete");
 		if (!service.findById(id).isPresent()) {
-			ResponseEntity.badRequest().build();
+			return ResponseEntity.badRequest().build();
 		}
 
 		service.delete(id);
