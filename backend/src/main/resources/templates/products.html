@@ -38,23 +38,22 @@
 	<template id="product-list">
 	<div>
 		<div class="row mb-2">
-			<router-link :to="{name: 'product-add'}" class="btn btn-success col-sm-2">
-				<span class="glyphicon glyphicon-plus"></span>
+			<router-link :to="{name: 'product-add'}" class="btn btn-success col-sm-2">				
 				Add product
 			</router-link>			
 		</div>
 		<div class="row mb-2">
 			<input placeholder="Search" v-model="searchKey" class="form-control col-sm-12" id="search-element" required/>			
 		</div>
-		<div>
-			<table class="table">
-				<thead>
+		<div class="row">
+			<table class="table table-sm table-hover">
+				<thead class="thead-light">
 					<tr>
 						<th scope="col">#</th>
 						<th scope="col">Name</th>
 						<th scope="col">Description</th>
 						<th scope="col">Price</th>
-						<th class="col">Actions</th>
+						<th scope="col">Actions</th>
 			        </tr>
 			    </thead>
 			    <tbody>
