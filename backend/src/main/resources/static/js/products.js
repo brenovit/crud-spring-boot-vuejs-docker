@@ -1,21 +1,7 @@
-var products = [];
-
 const api = axios.create({
 	baseURL: '/store/api/v1/products'
 });
 	
-function findProduct(productId) {
-	return products[findProductKey(productId)];
-}
-
-function findProductKey(productId) {
-	for (var key = 0; key < products.length; key++) {
-		if (products[key].id == productId) {
-			return key;
-		}
-	}
-}
-
 var productService = {
 	findAll(fn){
 		api
@@ -37,7 +23,7 @@ var productService = {
 	},
 	update(id, product, fn){
 		api
-		.put('/'+id, { data: product } )
+		.put('/'+id, product )
 		.then(response => fn(response))
 		.catch(error => console.log(error))
 	},
@@ -57,35 +43,36 @@ var List = Vue.extend({
 	data: function(){
 		return {
 			products: [],
+			productsFixed: [],
 			searchKey: '',
-			product: {name:'', descripion:'', price:0}
+			selectedProduct: {name:'', descripion:'', price:0}
 		}
 	},
-	computed: {
-		filteredProducts(){
-			if(this.products.length === 0){
-				return [];
-			}
-			return this.products.filter((product) =>{
+	watch: {
+		searchKey: function (newQuestion, oldQuestion){			
+			productsSearch = this.productsFixed.filter((product) => {
 				return product.name.indexOf(this.searchKey) > -1
 				|| product.description.indexOf(this.searchKey) > -1
 				|| product.price.toString().indexOf(this.searchKey) > -1
 			});
+			if(productsSearch == null || productsSearch.length === 0 || this.searchKey.length === 0){
+				this.products = this.productsFixed;
+			} else {			
+				this.products = productsSearch;
+			}
 		}
 	},
 	methods : {
 		showModalDelete(product){
-			this.product = product;
+			this.selectedProduct = product;
 		},
 		deleteProduct() {
-	    	productService.deleteProduct(this.product.id, r => console.log(r));
-	    	this.searchKey = "";
+	    	productService.deleteProduct(this.selectedProduct.id, r => console.log(r));
+	    	productService.findAll(r => { this.products = r.data, this.productsFixed = r.data});
 	    }
 	},
 	mounted (){
-		productService.findAll(r => {
-			this.products = r.data; products = r.data
-		});
+		productService.findAll(r => { this.products = r.data, this.productsFixed = r.data});
 	}
 });
 
@@ -93,8 +80,11 @@ var Product = Vue.extend({
 	template: '#product',
 	data: function(){
 		return {
-			product: findProduct(this.$route.params.product_id)
+			product: []
 		};
+	},
+	mounted (){
+		productService.findById(this.$route.params.product_id, r => this.product = r.data);
 	}
 });
 
@@ -118,13 +108,16 @@ var ProductEdit = Vue.extend({
 	template: '#edit-product',
 	data: function(){
 		return {
-			product: findProduct(this.$route.params.product_id)
+			product: []
 		}
 	},
 	methods:{
 		updateProduct: function(){
 			productService.update(this.product.id, this.product, r => router.push('/'));
 		}
+	},
+	mounted (){
+		productService.findById(this.$route.params.product_id, r => this.product = r.data);
 	}
 });
 
@@ -132,12 +125,17 @@ var ProductEdit = Vue.extend({
 var ProductDelete = Vue.extend({
 	template: '#delete-product',
 	data: function() {
-	    return {product: findProduct(this.$route.params.product_id)};
+	    return {
+	    	product: []
+	    };
 	},
 	methods: {
 	    deleteProduct: function () {
 	    	productService.deleteProduct(this.product.id, r => router.push('/'));
 	    }
+	},
+	mounted (){
+		productService.findById(this.$route.params.product_id, r => this.product = r.data);
 	}
 });
 
