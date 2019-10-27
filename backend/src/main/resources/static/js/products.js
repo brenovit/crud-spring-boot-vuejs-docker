@@ -1,7 +1,7 @@
 var products = [];
 
 const api = axios.create({
-	baseURL: '/store/api/v1/products/'
+	baseURL: '/store/api/v1/products'
 });
 	
 function findProduct(productId) {
@@ -19,13 +19,13 @@ function findProductKey(productId) {
 var productService = {
 	findAll(fn){
 		api
-		.get('')
+		.get('/')
 		.then(response => fn(response))
 		.catch(error => console.log(error))		
 	},
 	findById(id, fn){
 		api
-		.get(id)
+		.get('/'+id)
 		.then(response => fn(response))
 		.catch(error => console.log(error))
 	},
@@ -37,13 +37,13 @@ var productService = {
 	},
 	update(id, product, fn){
 		api
-		.put(id, { data: product } )
+		.put('/'+id, { data: product } )
 		.then(response => fn(response))
 		.catch(error => console.log(error))
 	},
 	deleteProduct(id, fn){
 		api
-		.delete(id)
+		.delete('/'+id)
 		.then(response => fn(response))
 		.catch(error => console.log(error))
 	}
@@ -51,20 +51,36 @@ var productService = {
 
 var List = Vue.extend({
 	template: '#product-list',
+	componnents: {
+		ModalDelete:'modal'
+	},
 	data: function(){
 		return {
 			products: [],
-			searchKey: ''
+			searchKey: '',
+			product: {name:'', descripion:'', price:0}
 		}
 	},
 	computed: {
 		filteredProducts(){
+			if(this.products.length === 0){
+				return [];
+			}
 			return this.products.filter((product) =>{
 				return product.name.indexOf(this.searchKey) > -1
 				|| product.description.indexOf(this.searchKey) > -1
 				|| product.price.toString().indexOf(this.searchKey) > -1
 			});
 		}
+	},
+	methods : {
+		showModalDelete(product){
+			this.product = product;
+		},
+		deleteProduct() {
+	    	productService.deleteProduct(this.product.id, r => console.log(r));
+	    	this.searchKey = "";
+	    }
 	},
 	mounted (){
 		productService.findAll(r => {
@@ -92,7 +108,7 @@ var ProductAdd = Vue.extend({
 	},
 	methods:{
 		createProduct(){
-			productService.create(this.product, r=> router.push('/'));
+			productService.create(this.product, r => router.push('/'));
 		}
 	}
 });
@@ -120,7 +136,6 @@ var ProductDelete = Vue.extend({
 	},
 	methods: {
 	    deleteProduct: function () {
-	    	console.log(this.product);
 	    	productService.deleteProduct(this.product.id, r => router.push('/'));
 	    }
 	}
