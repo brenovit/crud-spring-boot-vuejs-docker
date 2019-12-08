@@ -3,17 +3,17 @@ package io.github.brenovit.store.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.github.brenovit.store.repository.Product;
 import io.github.brenovit.store.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class ProductService {
 	
-	private final ProductRepository repository;
+	@Autowired
+	private ProductRepository repository;
 	
 	public List<Product> findAll(){
 		return repository.findAll();

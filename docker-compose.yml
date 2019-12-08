@@ -1,6 +1,6 @@
 version: '3'
 services:
- brenovit-mysql:
+ product-store-mysql:
   container_name: brenovit-mysql
   image: mysql/mysql-server:5.7
   environment:
@@ -11,7 +11,7 @@ services:
   ports:
    - "3306:3306"
   restart: always
- brenovit-application:
+ product-store-application:
   build: .
   volumes: 
   - .:/app
@@ -21,4 +21,4 @@ services:
   - 8181:8181
   command: mvn clean spring-boot:run
   depends_on:
-  - brenovit-mysql
+  - product-store-mysql
