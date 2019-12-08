@@ -20,11 +20,11 @@
 			<div class="form-group">
 				<label for="price">Price <span class="glyphicon glyphicon-euro"></span></label>
 				<input type="text" class="form-control" id="price" v-model="product.price" readonly>
-			</div>		
-			<router-link :to="{name: 'product-edit', params: {product_id: product.id}}" class="btn btn-warning btn-xs">Edit</router-link>
-			<router-link to="/" class="btn btn-secondary">Back</router-link>
-		</div>	
-	</div>
+			</div>
+			<router-link :to="{name: 'product-edit', params: {product_id: product.id}}" class="btn btn-warning btn-xs">Edit</router-link>&nbsp;
+  		<router-link to="/" class="btn btn-secondary">Back</router-link>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -33,13 +33,13 @@ import api from '@/components/api-service';
 
 export default {
   name: 'viewProduct',
-  data: function(){
-		return {
-			product: []
-		};
-	},
-  mounted (){
-	  api.findById(this.$route.params.product_id, r => this.product = r.data);
+  data() {
+    return {
+      product: [],
+    };
+  },
+  mounted() {
+    api.findById(this.$route.params.product_id, r => this.product = r.data);
   },
 };
 </script>

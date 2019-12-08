@@ -15,7 +15,7 @@
 						<label for="edit-price">Price <span class="glyphicon glyphicon-euro"></span></label>
 						<input type="number" id="edit-price" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" class="form-control" v-model="product.price"/>
 					</div>
-					<button class="btn btn-primary">Save</button>
+					<button class="btn btn-primary">Save</button>&nbsp;
 					<router-link to="/" class="btn btn-secondary">Cancel</router-link>
 				</form>
 			</div>
@@ -28,18 +28,18 @@ import api from '@/components/api-service';
 
 export default {
   name: 'editProduct',
-  data: function(){
-		return {
-			product: []
-		}
-	},
-	methods:{
-		updateProduct: function(){
-			api.update(this.product.id, this.product, r => router.push('/'));
-		}
-	},
-	mounted (){
-		api.findById(this.$route.params.product_id, r => this.product = r.data);
-	}
+  data() {
+    return {
+      product: [],
+    };
+  },
+  methods: {
+    updateProduct() {
+      api.update(this.product.id, this.product, r => router.push('/'));
+    },
+  },
+  mounted() {
+    api.findById(this.$route.params.product_id, r => this.product = r.data);
+  },
 };
 </script>

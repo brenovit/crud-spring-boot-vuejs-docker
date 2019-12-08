@@ -14,7 +14,7 @@
 					<label for="add-price">Price <span class="glyphicon glyphicon-euro"></span></label>
 					<input type="number" step="0.01" pattern="^\d+(?:\.\d{1,2})?$" class="form-control" id="add-price" v-model="product.price"/>
 				</div>
-				<button class="btn btn-primary">Create</button>
+				<button class="btn btn-primary">Create</button>&nbsp;
 				<router-link to="/" class="btn btn-secondary">Cancel</router-link>
 			</form>
 		</div>
@@ -26,15 +26,15 @@ import api from '@/components/api-service';
 
 export default {
   name: 'addProduct',
-  data: function(){
-		return {
-			product: {name:'', descripion:'', price:0}
-		}
-	},
-	methods:{
-		createProduct(){
-			api.create(this.product, r => router.push('/'));
-		}
-	},
+  data() {
+    return {
+      product: { name: '', descripion: '', price: 0 },
+    };
+  },
+  methods: {
+    createProduct() {
+      api.create(this.product, r => router.push('/'));
+    },
+  },
 };
 </script>

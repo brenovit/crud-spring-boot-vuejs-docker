@@ -29,12 +29,12 @@ export default new Router({
       component: AddProduct,
     },
     {
-      path: '/product/:product_id/edit',
+      path: '/product/edit/:product_id',
       name: 'product-edit',
       component: EditProduct,
     },
     {
-      path: '/product/:product_id/delete',
+      path: '/product/delete/:product_id',
       name: 'product-delete',
       component: DeleteProduct,
     },
