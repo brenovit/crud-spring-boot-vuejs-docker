@@ -14,7 +14,7 @@
 		</div>
 		<div v-if="products.length > 0">
 			<div class="row mb-2">
-				<input placeholder="Search" v-model="searchKey" class="form-control col-sm-12" id="search-element" required/>
+				<input placeholder="Search" v-model="searchKey" class="form-control col-sm-12" id="search-element"/>
 			</div>
 			<div class="row">
 				<table class="table table-sm table-hover">
@@ -28,9 +28,9 @@
 				        </tr>
 				    </thead>
 				    <tbody>
-				       	<tr v-for="(product,index) in products">
+				       	<tr v-for="(product,index) in products" :key="product">
 				       		<th scope="row">{{index+1}}</th>			       	
-				        	<td><router-link :to="{name: 'product', params: {product_id: product.id}}">{{ product.name }}</router-link></td>
+				        	<td><router-link :to="{name: 'product-view', params: {product_id: product.id}}">{{ product.name }}</router-link></td>
 				         	<td>{{ product.description }}</td>
 				         	<td>{{ product.price }}</td>
 				         	<td>
@@ -68,14 +68,10 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
-import api from '@/components/api-service'
+import api from '@/components/api-service';
 
 export default {
   name: 'listProduct',
-  components: {
-    HelloWorld,
-  },
   data: function(){
 		return {
 			products: [],
@@ -103,9 +99,9 @@ export default {
 			this.selectedProduct = product;
 		},
 		deleteProduct() {
-	    	api.deleteProduct(this.selectedProduct.id, r => console.log(r));
-	    	api.findAll(r => { this.products = r.data, this.productsFixed = r.data});
-	    }
+	   	api.deleteProduct(this.selectedProduct.id, r => console.log(r));
+	   	api.findAll(r => { this.products = r.data, this.productsFixed = r.data});
+	  }
 	},
 	mounted (){
 		api.findAll(r => { this.products = r.data, this.productsFixed = r.data});

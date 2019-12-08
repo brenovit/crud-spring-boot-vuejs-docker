@@ -15,27 +15,27 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'list-product',
+      name: 'product-list',
       component: ListProduct,
     },
     {
       path: '/product/:product_id',
-      name: 'view-product',
+      name: 'product-view',
       component: ViewProduct,
     },
     {
       path: '/product',
-      name: 'add-product',
+      name: 'product-add',
       component: AddProduct,
     },
     {
       path: '/product/:product_id/edit',
-      name: 'edit-product',
+      name: 'product-edit',
       component: EditProduct,
     },
     {
       path: '/product/:product_id/delete',
-      name: 'delete-product',
+      name: 'product-delete',
       component: DeleteProduct,
     },
   ],

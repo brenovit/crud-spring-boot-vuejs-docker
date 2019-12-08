@@ -1,18 +1,31 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Delete Product Page"/>
-  </div>
+  <div>
+		  <h2>Delete product {{ product.name }}</h2>
+		  <div>
+		  	<p>The action cannot be undone.</p>
+		   	<button class="btn btn-danger" @click="deleteProduct">Delete</button>
+			<router-link to="/" class="btn btn-secondary">Cancel</router-link>
+		  </div>
+		</div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import api from '@/components/api-service';
 
 export default {
   name: 'deleteProduct',
-  components: {
-    HelloWorld,
-  },
+  data: function() {
+	    return {
+	    	product: []
+	    };
+	},
+	methods: {
+    deleteProduct: function () {
+      api.deleteProduct(this.product.id, r => router.push('/'));
+    }
+	},
+	mounted (){
+		api.findById(this.$route.params.product_id, r => this.product = r.data);
+	},
 };
 </script>
