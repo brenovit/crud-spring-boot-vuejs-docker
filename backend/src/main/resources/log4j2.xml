@@ -16,29 +16,7 @@
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT" follow="true">
 			<PatternLayout pattern="${LOG_PATTERN}" />
-		</Console>
-		<!-- 
-		<Gelf name="gelf" host="udp:localhost" port="12201" version="1.1"
-			extractStackTrace="true" filterStackTrace="true" mdcProfiling="true"
-			includeFullMdc="true" maximumMessageSize="8192"
-			originHost="%host{fqdn}"
-			additionalFieldTypes="fieldName1=String,fieldName2=Double,fieldName3=Long">
-			<Field name="timestamp" pattern="%d{dd MMM yyyy HH:mm:ss,SSS}" />
-			<Field name="level" pattern="%level" />
-			<Field name="simpleClassName" pattern="%C{1}" />
-			<Field name="className" pattern="%C" />
-			<Field name="server" pattern="%host" />
-			<Field name="server.fqdn" pattern="%host{fqdn}" />
-
-			<Field name="fieldName2" literal="fieldValue2" />
-
-			<Field name="mdcField2" mdc="mdcField2" />
-			<DynamicMdcFields regex="mdc.*" />
-			<DynamicMdcFields regex="(mdc|MDC)fields" />
-			<DynamicMdcFieldType regex="my_field.*"
-				type="String" />
-		</Gelf>
-		 -->
+		</Console>		
 	</Appenders>
 
 	<Loggers>
@@ -50,8 +28,7 @@
 		</Logger>
 
 		<Root level="INFO">
-			<AppenderRef ref="Console" />
-			<!--  AppenderRef ref="gelf" /-->
+			<AppenderRef ref="Console" />			
 		</Root>
 	</Loggers>
 
