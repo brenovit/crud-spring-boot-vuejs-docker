@@ -3,10 +3,10 @@
 
 	<Properties>
 		<Property name="FILE_NAME">
-			./log/store.log
+			/volumes/elk/logstash/logs/product-store/application.log
 		</Property>
 		<Property name="FILE_PATTERN">
-			./log/old/%d{yyyy-MM-dd}.store.log
+			/volumes/elk/logstash/logs/product-store/old/%d{yyyy-MM-dd}.store.log
 		</Property>
 		<Property name="LOG_PATTERN">
 			%d{yyyy-MM-dd HH:mm:ss,SSS} %5p [%-20c{1}] : %m%n
@@ -17,28 +17,13 @@
 		<Console name="Console" target="SYSTEM_OUT" follow="true">
 			<PatternLayout pattern="${LOG_PATTERN}" />
 		</Console>
-		<!-- 
-		<Gelf name="gelf" host="udp:localhost" port="12201" version="1.1"
-			extractStackTrace="true" filterStackTrace="true" mdcProfiling="true"
-			includeFullMdc="true" maximumMessageSize="8192"
-			originHost="%host{fqdn}"
-			additionalFieldTypes="fieldName1=String,fieldName2=Double,fieldName3=Long">
-			<Field name="timestamp" pattern="%d{dd MMM yyyy HH:mm:ss,SSS}" />
-			<Field name="level" pattern="%level" />
-			<Field name="simpleClassName" pattern="%C{1}" />
-			<Field name="className" pattern="%C" />
-			<Field name="server" pattern="%host" />
-			<Field name="server.fqdn" pattern="%host{fqdn}" />
-
-			<Field name="fieldName2" literal="fieldValue2" />
-
-			<Field name="mdcField2" mdc="mdcField2" />
-			<DynamicMdcFields regex="mdc.*" />
-			<DynamicMdcFields regex="(mdc|MDC)fields" />
-			<DynamicMdcFieldType regex="my_field.*"
-				type="String" />
-		</Gelf>
-		 -->
+		<RollingFile name="File" fileName="${FILE_NAME}"
+			filePattern="${FILE_PATTERN}">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile>
 	</Appenders>
 
 	<Loggers>
@@ -47,11 +32,12 @@
 		<Logger name="io.github.brenovit.store" level="DEBUG"
 			additivity="false">
 			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
 		</Logger>
 
 		<Root level="INFO">
 			<AppenderRef ref="Console" />
-			<!--  AppenderRef ref="gelf" /-->
+			<AppenderRef ref="File" />
 		</Root>
 	</Loggers>
 
