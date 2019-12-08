@@ -1,15 +1,15 @@
-package io.github.brenovit.store.controller.web;
+package io.github.brenovit.store.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class SwaggerController {
 	
-	@GetMapping(path="")
+	@GetMapping(path="apidoc")
 	public RedirectView redirectApiDocSwagger() {
 		return new RedirectView("swagger-ui.html");
 	}	
