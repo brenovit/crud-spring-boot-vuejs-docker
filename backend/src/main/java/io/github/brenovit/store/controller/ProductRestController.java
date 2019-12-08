@@ -1,4 +1,4 @@
-package io.github.brenovit.store.controller.api;
+package io.github.brenovit.store.controller;
 
 import java.util.List;
 import java.util.Optional;
