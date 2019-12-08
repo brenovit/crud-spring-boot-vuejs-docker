@@ -1,18 +1,18 @@
 version: '3'
 services:
- product-store-mysql:
-  container_name: brenovit-mysql
+ product-store-database:
+  container_name: product-store-mysql
   image: mysql/mysql-server:5.7
   environment:
    MYSQL_DATABASE: store
-   MYSQL_ROOT_PASSWORD: brenovit
+   MYSQL_ROOT_PASSWORD: product-store
    MYSQL_ROOT_HOST: '%'
    MYSQL_USER: root
   ports:
    - "3306:3306"
   restart: always
- product-store-application:
-  build: .
+ product-store-backend:
+  build: backend/
   volumes: 
   - .:/app
   - ~/m2:/root/.m2
@@ -21,4 +21,10 @@ services:
   - 8181:8181
   command: mvn clean spring-boot:run
   depends_on:
-  - product-store-mysql
+  - product-store-database
+ product-store-fronted:
+  build: frontend/
+  ports:
+  - 8080:80
+  depends_on:
+  - product-store-backend
