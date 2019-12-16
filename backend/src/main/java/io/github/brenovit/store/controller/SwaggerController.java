@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/")
 public class SwaggerController {
 	
-	@GetMapping(path="apidoc")
+	@GetMapping(path="")
 	public RedirectView redirectApiDocSwagger() {
 		return new RedirectView("swagger-ui.html");
 	}	

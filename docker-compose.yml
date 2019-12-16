@@ -1,30 +1,40 @@
-version: '3'
+version: '3.1'
 services:
- product-store-database:
-  container_name: product-store-mysql
-  image: mysql/mysql-server:5.7
-  environment:
-   MYSQL_DATABASE: store
-   MYSQL_ROOT_PASSWORD: product-store
-   MYSQL_ROOT_HOST: '%'
-   MYSQL_USER: root
-  ports:
-   - "3306:3306"
-  restart: always
- product-store-backend:
-  build: backend/
-  volumes: 
-  - .:/app
-  - ~/m2:/root/.m2
-  working_dir: /app
-  ports:
-  - 8181:8181
-  command: mvn clean spring-boot:run
-  depends_on:
-  - product-store-database
- product-store-fronted:
-  build: frontend/
-  ports:
-  - 8080:80
-  depends_on:
-  - product-store-backend
+  #product-store-database:
+    #container_name: ps-db
+    #image: mysql/mysql-server:5.7
+    #environment:
+      #MYSQL_DATABASE: store
+      #MYSQL_ROOT_PASSWORD: product-store
+      #MYSQL_ROOT_HOST: '%'
+      #MYSQL_USER: root
+    #ports:
+      #- "3306:3306"
+    #restart: always
+  product-store-backend:  
+    container_name: ps-back
+    build: backend/
+    volumes: 
+      - .:/app
+      - ~/m2:/root/.m2
+    working_dir: /app
+    ports:
+      - 8181:8181
+    networks:
+      - product-store-network
+    command: mvn clean spring-boot:run
+    #depends_on:
+    #  - product-store-database
+  product-store-fronted:
+    container_name: ps-front
+    build: frontend/
+    ports:
+      - 8080:80
+    networks:
+      - product-store-network
+    depends_on:
+      - product-store-backend
+
+networks: 
+  product-store-network:
+      driver: bridge
