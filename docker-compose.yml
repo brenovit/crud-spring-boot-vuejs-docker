@@ -14,10 +14,6 @@ services:
   product-store-backend:  
     container_name: ps-back
     build: backend/
-    volumes: 
-      - .:/app
-      - ~/m2:/root/.m2
-    working_dir: /app
     ports:
       - 8181:8181
     networks:
@@ -37,4 +33,4 @@ services:
 
 networks: 
   product-store-network:
-      driver: bridge
+    driver: bridge

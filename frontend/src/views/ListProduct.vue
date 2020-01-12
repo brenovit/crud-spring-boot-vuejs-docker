@@ -81,8 +81,8 @@ export default {
 	  },
   },
   mounted() {
-  	console.log(process.env.VUE_APP_ROOT_API);
-	api.findAll((r) => { this.products = r.data, this.productsFixed = r.data; });
+	  console.log(process.env.VUE_APP_ROOT_API);
+	  api.findAll((r) => { this.products = r.data, this.productsFixed = r.data; });
   },
 };
 </script>
