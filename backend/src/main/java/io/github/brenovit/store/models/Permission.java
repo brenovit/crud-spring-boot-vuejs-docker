@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="roles")
 @NoArgsConstructor
-public class Role {
+public class Permission {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +25,9 @@ public class Role {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
-	private ERole name;
+	private EPermission name;
 	
-	public Role(ERole name) {
+	public Permission(EPermission name) {
 		this.name = name;
 	}
 }
