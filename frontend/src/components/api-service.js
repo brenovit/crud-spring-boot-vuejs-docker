@@ -2,7 +2,7 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 
 const baseApi = axios.create({
-  baseURL: '/store/api/v1/products',
+  baseURL: process.env.VUE_APP_ROOT_API+'/store/api/v1/products',
 });
 
 baseApi.interceptors.request.use((config) => {

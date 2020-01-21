@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     deleteProduct() {
-      api.deleteProduct(this.product.id, r => router.push('/'));
+      api.deleteProduct(this.product.id, r => router.push('/'));      
     },
   },
   mounted() {

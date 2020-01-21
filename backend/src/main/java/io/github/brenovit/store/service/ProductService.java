@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.github.brenovit.store.repository.Product;
+import io.github.brenovit.store.models.Product;
 import io.github.brenovit.store.repository.ProductRepository;
 
 @Service

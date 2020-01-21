@@ -35,7 +35,7 @@
 				         	<td>{{ product.price }}</td>
 				         	<td>
 				         		<router-link :to="{name: 'product-edit', params: {product_id: product.id}}" class="btn btn-warning btn-sm">Edit</router-link>&nbsp;
-				          	<router-link :to="{name: 'product-delete', params: {product_id: product.id}}" class="btn btn-danger btn-sm">Delete</router-link>
+				          		<router-link :to="{name: 'product-delete', params: {product_id: product.id}}" class="btn btn-danger btn-sm">Delete</router-link>
 				        	</td>
 				       	</tr>
 					</tbody>
@@ -81,7 +81,8 @@ export default {
 	  },
   },
   mounted() {
-    api.findAll((r) => { this.products = r.data, this.productsFixed = r.data; });
+	  console.log(process.env.VUE_APP_ROOT_API);
+	  api.findAll((r) => { this.products = r.data, this.productsFixed = r.data; });
   },
 };
 </script>
