@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import ListProduct from './views/ListProduct.vue';
-import AddProduct from './views/AddProduct.vue';
-import ViewProduct from './views/ViewProduct.vue';
-import EditProduct from './views/EditProduct.vue';
-import DeleteProduct from './views/DeleteProduct.vue';
+import ListProduct from '@/views/product/ListProduct.vue';
+import AddProduct from '@/views/product/AddProduct.vue';
+import ViewProduct from '@/views/product/ViewProduct.vue';
+import EditProduct from '@/views/product/EditProduct.vue';
+import DeleteProduct from '@/views/product/DeleteProduct.vue';
 
 
 Vue.use(Router);
