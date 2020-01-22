@@ -1,31 +1,31 @@
 <template>
   <div>
-		  <h2>Delete product {{ product.name }}</h2>
-		  <div>
-		  	<p>The action cannot be undone.</p>
-		   	<button class="btn btn-danger" @click="deleteProduct">Delete</button>&nbsp;
-			  <router-link to="/" class="btn btn-secondary">Cancel</router-link>
-		  </div>
-		</div>
+    <h2>Delete product {{ product.name }}</h2>
+    <div>
+      <p>The action cannot be undone.</p>
+      <button class="btn btn-danger" @click="deleteProduct">Delete</button>&nbsp;
+      <router-link to="/" class="btn btn-secondary">Cancel</router-link>
+    </div>
+  </div>
 </template>
 
 <script>
-import api from '@/components/api-service';
+import api from "@/service/api.service";
 
 export default {
-  name: 'deleteProduct',
+  name: "deleteProduct",
   data() {
-	    return {
-	    	product: [],
-	    };
+    return {
+      product: []
+    };
   },
   methods: {
     deleteProduct() {
-      api.deleteProduct(this.product.id, r => router.push('/'));      
-    },
+      api.deleteProduct(this.product.id, r => router.push("/"));
+    }
   },
   mounted() {
-    api.findById(this.$route.params.product_id, r => this.product = r.data);
-  },
+    api.findById(this.$route.params.product_id, r => (this.product = r.data));
+  }
 };
 </script>
