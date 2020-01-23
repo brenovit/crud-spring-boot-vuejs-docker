@@ -33,13 +33,7 @@ import lombok.extern.log4j.Log4j2;
 public class ProductRestController {
 
 	private final ProductService service;
-	
-	private final HeaderHelper headerHelper;
-	
-	private final JwtUtils jwtUtils;
-	
-	private final UserRepository userRepository;
-	
+		
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
 		log.info("call - findAll");
@@ -48,10 +42,7 @@ public class ProductRestController {
 
 	@PostMapping
 	public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
-		log.info("call - create");
-		String userName = jwtUtils.getUserNameFromJwtToken(headerHelper.getAuthorization());
-		User user = userRepository.findByUsername(userName).get();
-		product.setUser(user);		
+		log.info("call - create");		
 		return ResponseEntity.ok(service.save(product));
 	}
 	

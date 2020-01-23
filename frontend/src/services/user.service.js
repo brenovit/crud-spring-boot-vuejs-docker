@@ -7,19 +7,19 @@ const baseApi = axios.create({
 
 class UserService {
   getPublicContent() {
-    return baseURL.get("all");
+    return baseApi.get("all");
   }
 
   getUserBoard() {
-    return baseURL.get("user", { headers: authHeader() });
+    return baseApi.get("user", { headers: authHeader() });
   }
 
   getModeratorBoard() {
-    return baseURL.get("mod", { headers: authHeader() });
+    return baseApi.get("mod", { headers: authHeader() });
   }
 
   getAdminBoard() {
-    return baseURL.get("admin", { headers: authHeader() });
+    return baseApi.get("admin", { headers: authHeader() });
   }
 }
 

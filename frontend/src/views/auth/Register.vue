@@ -66,8 +66,46 @@
 </template>
 
 <script>
-import User from '../models/user';
+import User from "@/models/user";
 
+export default {
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
+  },
+  data() {
+    return {
+      user: new User("", ""),
+      submitted: false,
+      successful: false,
+      message: ""
+    };
+  },
+  mounted() {
+    if (this.loggedIn) {
+      this.$router.push("/profile");
+    }
+  },
+  methods: {
+    handleRegister() {
+      this.message = "";
+      this.submitted = true;
+      this.$validator.validate().then(valid => {
+        this.$store.dispatch("auth/register", this.user).then(
+          data => {
+            this.message = data.message;
+            this.successful = true;
+          },
+          error => {
+            this.message = error.message;
+            this.successful = false;
+          }
+        );
+      });
+    }
+  }
+};
 </script>
 
 <style scoped>

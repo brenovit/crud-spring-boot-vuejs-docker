@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import api from "@/service/api.service";
+import api from "@/services/api.service";
 
 export default {
   name: "deleteProduct",

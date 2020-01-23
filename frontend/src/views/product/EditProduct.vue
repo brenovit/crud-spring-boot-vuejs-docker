@@ -39,7 +39,7 @@
 
 <script>
 // @ is an alias to /src
-import api from "@/service/api.service";
+import api from "@/services/api.service";
 
 export default {
   name: "editProduct",
