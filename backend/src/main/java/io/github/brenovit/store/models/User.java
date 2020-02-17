@@ -19,15 +19,17 @@ import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 @Entity
-@Table(	name = "users", 
+@Table(	name = "user", 
 		uniqueConstraints = { 
 			@UniqueConstraint(columnNames = "username"),
 			@UniqueConstraint(columnNames = "email") 
 		})
 @Data
 @NoArgsConstructor
+@Accessors(chain=true)
 public class User {
 	
 	@Id
@@ -48,10 +50,10 @@ public class User {
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(	name = "user_roles", 
+	@JoinTable(	name = "user_permissions", 
 				joinColumns = @JoinColumn(name = "user_id"), 
-				inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Permission> roles = new HashSet<>();
+				inverseJoinColumns = @JoinColumn(name = "permission_id"))
+	private Set<Permission> permissions = new HashSet<>();
 	
 	public User(String username, String email, String password) {
 		this.username = username;

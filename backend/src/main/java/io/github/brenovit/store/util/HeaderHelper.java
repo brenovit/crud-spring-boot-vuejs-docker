@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import io.jsonwebtoken.JwtException;
 
@@ -13,15 +14,11 @@ public class HeaderHelper {
 
 	@Autowired
 	private HttpServletRequest request;
-	
-	public String getCodigoContratante() {
-		return request.getHeader("CodigoContratante");
-	}
-	
+		
 	public String getAuthorization() {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (header == null || !header.startsWith("Bearer ")) {
+        if (StringUtils.isEmpty(header) || !header.startsWith("Bearer ")) {
             throw new JwtException("No JWT token found in request headers");
         }
 

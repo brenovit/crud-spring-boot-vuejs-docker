@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.brenovit.store.models.Product;
-import io.github.brenovit.store.models.User;
-import io.github.brenovit.store.repository.UserRepository;
-import io.github.brenovit.store.security.jwt.JwtUtils;
 import io.github.brenovit.store.service.ProductService;
-import io.github.brenovit.store.util.HeaderHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -35,6 +32,7 @@ public class ProductRestController {
 	private final ProductService service;
 		
 	@GetMapping
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<List<Product>> findAll() {
 		log.info("call - findAll");
 		return ResponseEntity.ok(service.findAll());

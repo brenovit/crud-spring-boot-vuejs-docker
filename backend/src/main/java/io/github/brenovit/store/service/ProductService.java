@@ -7,49 +7,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.github.brenovit.store.models.Product;
-import io.github.brenovit.store.models.User;
 import io.github.brenovit.store.repository.ProductRepository;
-import io.github.brenovit.store.repository.UserRepository;
-import io.github.brenovit.store.security.jwt.JwtUtils;
-import io.github.brenovit.store.util.HeaderHelper;
 
 @Service
-public class ProductService {
-	@Autowired
-	private HeaderHelper headerHelper;
-	
-	@Autowired	
-	private JwtUtils jwtUtils;
-	
-	@Autowired
-	private UserRepository userRepository;
+public class ProductService extends InternalService {	
 	
 	@Autowired
 	private ProductRepository repository;
 	
 	public List<Product> findAll(){
-		return repository.findByUserId(getUser().getId());
+		return repository.findByUserId(getLoggedUser().getId());
 	}
 	
 	public Optional<Product> findById(Long id){
 		Optional<Product> product = repository.findById(id);
-		if(product.isPresent() && product.get().getUser().getId() != getUser().getId()) {
+		if(product.isPresent() && product.get().getUser().getId() != getLoggedUser().getId()) {
 			return Optional.empty();
 		}
 		return product;
 	}
 	
 	public Product save (Product product) {
-		product.setUser(getUser());		
+		product.setUser(getLoggedUser());		
 		return repository.save(product);
 	}
 	
 	public void delete(Long id) {
 		repository.deleteById(id);
 	}	
-	
-	private User getUser() {
-		String userName = jwtUtils.getUserNameFromJwtToken(headerHelper.getAuthorization());
-		return userRepository.findByUsername(userName).get(); 
-	}
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import authHeader from "./auth-header";
+import authHeader from "@/services/auth-header";
 
 const baseApi = axios.create({
   baseURL: process.env.VUE_APP_ROOT_API + "/store/api/test/"

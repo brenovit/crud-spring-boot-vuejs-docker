@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import io.github.brenovit.store.models.User;
-import io.github.brenovit.store.repository.UserRepository;
 import io.github.brenovit.store.security.services.UserDetailsImpl;
 import lombok.SneakyThrows;
 
@@ -17,15 +16,14 @@ import lombok.SneakyThrows;
 public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Autowired
-	UserRepository userRepository;
+	private UserService userService;
 	
 	@Override
 	@Transactional
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String username) {
-		User user = userRepository.findByUsername(username)
+		User user = userService.findByUsernameOrEmail(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: "+username));
-		
 		return UserDetailsImpl.builder(user);
 	}
 }

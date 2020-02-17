@@ -1,13 +1,11 @@
 package io.github.brenovit.store.models;
 
-import javax.persistence.Column;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,19 +13,23 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="roles")
+@Table(name="permission")
 @NoArgsConstructor
 public class Permission {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic
 	private Long id;
+
+	private String description;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(length = 20)
-	private EPermission name;
+	@Transient
+	private EPermission permission;
 	
-	public Permission(EPermission name) {
-		this.name = name;
-	}
+	@PostLoad
+	private void fillTransient() {
+		if(id > 0) {
+			this.permission = EPermission.of(id);
+		}
+	}	
 }

@@ -1,27 +1,26 @@
-package io.github.brenovit.store.payload.response;
+package io.github.brenovit.store.payload.auth;
 
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class JwtResponse {
+public class SignInResponse {	
 	private String token;
 	private String type = "Bearer";
 	private Long id;
 	private String username;
 	private String email;
-	private List<String> roles;
+	private List<String> permissions;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+	public SignInResponse(String accessToken, Long id, String username, String email, List<String> permissions) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
 		this.email = email;
-		this.roles = roles;
+		this.permissions = permissions;
 	}
+	
 }

@@ -1,4 +1,4 @@
-package io.github.brenovit.store.payload.request;
+package io.github.brenovit.store.payload.auth;
 
 import java.util.Set;
 
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
  
 @Data
-public class SignupRequest {
+public class SignUpRequest {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
