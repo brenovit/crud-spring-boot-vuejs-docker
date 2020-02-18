@@ -31,7 +31,7 @@ import io.github.brenovit.store.validator.ValidatorRequestFacade;
 import lombok.SneakyThrows;
 
 @Service
-public class AuthService {
+public class AuthService extends InternalService {
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -74,36 +74,42 @@ public class AuthService {
 
 		User user = new User().setUsername(request.getUsername()).setEmail(request.getEmail())
 				.setPassword(encoder.encode(request.getPassword()));
+		User loggedUser = getLoggedUser();
 
 		Set<String> strRoles = request.getRole();
 
 		Set<Permission> roles = new HashSet<>();
+		List<Permission> localRoles = roleRepository.findAll();
 
-		if (strRoles == null) {
-			Permission userRole = roleRepository.findById(EPermission.ROLE_USER.getValue())
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(userRole);
-		} else {
+		if (loggedUser != null && loggedUser.hasPermission(EPermission.ADMIN) && strRoles != null) {
 			strRoles.forEach(role -> {
 				switch (role) {
 				case "admin":
-					Permission adminRole = roleRepository.findById(EPermission.ROLE_ADMIN.getValue())
+					Permission adminRole = localRoles.stream()
+							.filter(localRole -> localRole.getPermission() == EPermission.ADMIN).findFirst()
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(adminRole);
 
 					break;
 				case "mod":
-					Permission modRole = roleRepository.findById(EPermission.ROLE_MODERATOR.getValue())
+					Permission modRole = localRoles.stream()
+							.filter(localRole -> localRole.getPermission() == EPermission.MODERATOR).findFirst()
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(modRole);
 
 					break;
 				default:
-					Permission userRole = roleRepository.findById(EPermission.ROLE_USER.getValue())
+					Permission userRole = localRoles.stream()
+							.filter(localRole -> localRole.getPermission() == EPermission.USER).findFirst()
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(userRole);
 				}
 			});
+		} else {
+			Permission userRole = localRoles.stream()
+					.filter(localRole -> localRole.getPermission() == EPermission.USER).findFirst()
+					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			roles.add(userRole);
 		}
 
 		user.setPermissions(roles);

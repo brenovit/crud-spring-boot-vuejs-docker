@@ -60,5 +60,9 @@ public class User {
 		this.email = email;
 		this.password = password;
 	}
+
+	public boolean hasPermission(EPermission role) {		
+		return permissions.contains(role);
+	}
 	
 }

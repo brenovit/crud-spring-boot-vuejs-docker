@@ -3,9 +3,9 @@ package io.github.brenovit.store.models;
 import java.util.stream.Stream;
 
 public enum EPermission {
-	ROLE_USER(1L),
-	ROLE_MODERATOR(2L),
-	ROLE_ADMIN(3L);
+	USER(1L),
+	MODERATOR(2L),
+	ADMIN(3L);
 	
 	private Long value;
 	

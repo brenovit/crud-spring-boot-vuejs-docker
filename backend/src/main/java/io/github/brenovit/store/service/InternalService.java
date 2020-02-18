@@ -1,5 +1,7 @@
 package io.github.brenovit.store.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import io.github.brenovit.store.models.User;
@@ -19,6 +21,10 @@ public class InternalService {
 		
 	public User getLoggedUser() {
 		String userName = jwtUtils.getUserNameFromJwtToken(headerHelper.getAuthorization());
-		return userService.findByUsername(userName).get(); 
+		Optional<User> findedUser = userService.findByUsername(userName);
+		if(findedUser.isPresent()) {
+			return findedUser.get();
+		}
+		return null;
 	}
 }

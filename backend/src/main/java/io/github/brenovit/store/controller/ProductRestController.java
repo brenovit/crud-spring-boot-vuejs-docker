@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,18 +24,17 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RestController
 @RequestMapping("/api/v1/products")
-@CrossOrigin(origins = { "http://localhost:8080"})
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
 public class ProductRestController {
 
 	private final ProductService service;
 		
-	@GetMapping
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@GetMapping	
 	public ResponseEntity<List<Product>> findAll() {
 		log.info("call - findAll");
 		return ResponseEntity.ok(service.findAll());
-	}
+	}		
 
 	@PostMapping
 	public ResponseEntity<Product> create(@Valid @RequestBody Product product) {

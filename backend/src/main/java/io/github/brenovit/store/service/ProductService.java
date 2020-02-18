@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.github.brenovit.store.models.EPermission;
 import io.github.brenovit.store.models.Product;
+import io.github.brenovit.store.models.User;
 import io.github.brenovit.store.repository.ProductRepository;
 
 @Service
@@ -16,11 +18,15 @@ public class ProductService extends InternalService {
 	private ProductRepository repository;
 	
 	public List<Product> findAll(){
-		return repository.findByUserId(getLoggedUser().getId());
+		User user = getLoggedUser();
+		if(user.hasPermission(EPermission.ADMIN)) {
+			return repository.findAll();			
+		}
+		return repository.findByUserId(getLoggedUser().getId());	
 	}
-	
+		
 	public Optional<Product> findById(Long id){
-		Optional<Product> product = repository.findById(id);
+		Optional<Product> product = repository.findByIdAndUserId(id, getLoggedUser().getId());
 		if(product.isPresent() && product.get().getUser().getId() != getLoggedUser().getId()) {
 			return Optional.empty();
 		}
