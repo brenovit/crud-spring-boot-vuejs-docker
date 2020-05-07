@@ -7,8 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import io.jsonwebtoken.JwtException;
-
 @Component
 public class HeaderHelper {
 
@@ -17,11 +15,9 @@ public class HeaderHelper {
 		
 	public String getAuthorization() {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-
         if (StringUtils.isEmpty(header) || !header.startsWith("Bearer ")) {
-            throw new JwtException("No JWT token found in request headers");
+            return null;
         }
-
         return header.substring(7);
 	}
 
